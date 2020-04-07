@@ -29,7 +29,6 @@
   */
 
  var posBombe = [];
- var contBombeInserite = 0;
 
  var numeriUtente = [];
  var contNumeriUtente = 0;
@@ -62,44 +61,44 @@ console.log(rangeMax);
 
   // Generare 16 numeri casuali tra 1 e 100 (posizione Bombe) - Nessun doppione.
 
-  while (contBombeInserite < 16) {
+  while (posBombe.length < 16) {
     numeroPosizioneBomba = getRandomInt1and100();
     if (posBombe.includes(numeroPosizioneBomba) == false) {
         posBombe.push(numeroPosizioneBomba);
-        contBombeInserite++
     }     
 }
 
  // chiedere all’utente di inserire un numero alla volta, sempre compreso tra 1 e 100. L’utente non può inserire più volte lo stesso numero.
-
- var numUt = parseInt(prompt('Inserisci il primo numero'))
-
- // Controllo se la scelta è nel range della difficoltà
- checkRange(numUt);
  
 
-  while (contNumeriUtente < rangeMax) {
-      switch (contNumeriUtente < rangeMax) {
+  while (contNumeriUtente < diff) {
+    var numUt = parseInt(prompt('Inserisci un numero'))
+        checkRange(numUt);
+      switch (contNumeriUtente < diff) {
+         
           case posBombe.includes(numUt) == true:
-              alert('BOOOOM! Sei appena saltata in aria!\nIl tuo punteggio: ' + numeriUtente.length + '/' + rangeMax );
+              alert('BOOOOM! Sei appena saltato/a in aria!\nIl tuo punteggio: ' + numeriUtente.length + '/' + rangeMax ); 
+              console.log('I tuoi numeri: ', numeriUtente);    
               contNumeriUtente = 150;
-              break;
+              break;     
+
           case numeriUtente.includes(numUt) == true:
-               numUt = parseInt(prompt('Num già inserito, prova con un altro'));
-               break;
+               numUtIncludes(numUt)
+               numeriUtente.push(numUt);
+               contNumeriUtente++;
+               break;  
+
           case posBombe.includes(numUt) == false && numeriUtente.includes(numUt) == false:
-                numeriUtente.push(numUt);
-                contNumeriUtente++;
-                numUt = parseInt(prompt('Inserisci un nuovo numero'));
-                checkRange(numUt);
-                break;            
+               numeriUtente.push(numUt);
+               contNumeriUtente++;
+               break;     
       }
   }
 
   
  //Feedback    
- if (contNumeriUtente == rangeMax) {
-    alert('HAI VINTO!!!'); 
+ if (contNumeriUtente == diff) {
+    alert('HAI VINTO!!!');     
  } 
 
  console.table('Le Bombe erano in queste posizioni: ', posBombe);
@@ -111,7 +110,13 @@ console.log(rangeMax);
   }
 
   function checkRange(num) {
-    while (numUt > rangeMax || numUt == 0) {
+    while (numUt > rangeMax || numUt == 0 || isNaN(numUt)) {
         numUt = parseInt(prompt('Il numero deve essere compreso fra 1 e ' + rangeMax));
      }
   }
+
+  function numUtIncludes(num) {
+    while (numeriUtente.includes(numUt) == true) {
+        numUt = parseInt(prompt('Num già inserito, prova con un altro'));
+       }
+  } 
